@@ -6,7 +6,7 @@
 		AccessKeyId:     "{AccessKeyId}",
 		AccessKeySecret: "{AccessKeySecret}",
 		Version:         "{2018-01-20}",
-		RegionId:        "{2018-01-20}",
+		RegionId:        "{cn-shanghai}",
 	}
 
 	request := make(map[string]string)
