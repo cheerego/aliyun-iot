@@ -1,16 +1,16 @@
 package iot
 
 import (
-	"io/ioutil"
 	"net/url"
 	"strings"
 	"time"
+	"math/rand"
 	"sort"
 	"crypto/hmac"
 	"crypto/sha1"
 	"encoding/base64"
 	"net/http"
-	"math/rand"
+	"io/ioutil"
 )
 
 type Client struct {
@@ -20,13 +20,13 @@ type Client struct {
 	RegionId        string
 }
 
-func (c *Client) Send(request map[string]string) string {
+func (c *Client) Send(request map[string]string) (string, error) {
 	request["Format"] = "JSON"
 	request["Version"] = c.Version
 	request["SignatureMethod"] = "HMAC-SHA1"
 	request["Timestamp"] = time.Now().UTC().Format(time.RFC3339)
 	request["SignatureVersion"] = "1.0"
-	request["SignatureNonce"] = RandStr(5)
+	request["SignatureNonce"] = GetRandomString(14)
 	request["RegionId"] = c.RegionId
 	request["AccessKeyId"] = c.AccessKeyId
 
@@ -51,16 +51,16 @@ func (c *Client) Send(request map[string]string) string {
 
 	resp, erro := http.Get("https://iot." + c.RegionId + ".aliyuncs.com?" + needleString + "&Signature=" + Signature)
 	if erro != nil {
-
+		return "", erro
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		// handle error
+	body, erro := ioutil.ReadAll(resp.Body)
+	if erro != nil {
+		return "", erro
 	}
 
-	return string(body)
+	return string(body), nil
 }
 
 func escaper(str string) string {
@@ -71,20 +71,13 @@ func escaper(str string) string {
 	return str
 }
 
-func RandStr(strlen int) string {
-	rand.Seed(time.Now().Unix())
-	data := make([]byte, strlen)
-	var num int
-	for i := 0; i < strlen; i++ {
-		num = rand.Intn(57) + 65
-		for {
-			if num > 90 && num < 97 {
-				num = rand.Intn(57) + 65
-			} else {
-				break
-			}
-		}
-		data[i] = byte(num)
+func GetRandomString(l int) string {
+	str := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#"
+	bytes := []byte(str)
+	result := []byte{}
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < l; i++ {
+		result = append(result, bytes[r.Intn(len(bytes))])
 	}
-	return string(data)
+	return string(result)
 }
