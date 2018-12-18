@@ -21,6 +21,6 @@ request["Action"] = "RRpc"
 request["RequestBase64Byte"] = base64.StdEncoding.EncodeToString([]byte("1312312"))
 request["DeviceName"] = "MACHINE_100023"
 request["Timeout"] = "5000"
-res := c.Send(request)
+res,_ := c.Send(request)
 fmt.Println(res)
 ```
