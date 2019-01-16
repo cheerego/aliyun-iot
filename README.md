@@ -8,7 +8,7 @@ go get -u github.com/cheerego/aliyun-iot
 import (
 	iot "github.com/cheerego/aliyun-iot"
 )
-c := iot.Client{
+var c iot.Client = Client{
 	AccessKeyId:     "{AccessKeyId}",
 	AccessKeySecret: "{AccessKeySecret}",
 	Version:         "{2018-01-20}",
