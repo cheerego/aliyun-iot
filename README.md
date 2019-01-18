@@ -1,5 +1,9 @@
 ### 阿里云物联网套件IOT SDK Go语言版本
 
+* 简单易使用
+* 优秀的随机字符串生成算法，良好的性能，根据 `time.Now().UnixNano()` 生成的随机种子，即使同时启动100个协程也不会重复，详情请查看测试用例
+
+
 ```
 go get -u github.com/cheerego/aliyun-iot
 ```
