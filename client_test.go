@@ -26,6 +26,11 @@ func genRand(ch chan string) {
 
 func BenchmarkRandStringBytesMaskImprSrc(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-
+		RandStringBytesMaskImprSrc(14)
+	}
+}
+func BenchmarkGetRandomString(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		GetRandomString(14)
 	}
 }
