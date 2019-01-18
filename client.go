@@ -82,6 +82,7 @@ func GetRandomString(l int) string {
 	return string(result)
 }
 
+//https://codeday.me/bug/20170607/22281.html
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const (
 	letterIdxBits = 6                    // 6 bits to represent a letter index
